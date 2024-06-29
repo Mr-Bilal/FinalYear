@@ -45,3 +45,24 @@ test_mse_scaled_knn = mean_squared_error(y_test, y_pred_knn)
 rmse_knn=np.sqrt(test_mse_scaled_knn)
 
 print(f"model score_test : {m_score_test_knn}\nR-squared: {r2_knn}\nmean_squared_error_train: {train_mse_scaled_knn}\nmean_square_error_test: {test_mse_scaled_knn}\nrmse : {rmse_knn}")
+
+///////////////////////////////////////////////////////////////////////////////////
+
+#Cross Validation
+
+from sklearn.model_selection import cross_val_score
+
+# Linear Regression Model
+LR_cv = cross_val_score(LR,X,y,cv=5,scoring="r2")
+LR_cv = LR_cv.mean()
+
+
+# KNN Model
+Knn_cv = cross_val_score(Knn,X,y,cv=5,scoring="r2")
+Knn_cv = Knn_cv.mean()
+
+#printing the results of cv_models
+print(f'Linear Regression Score: {LR_cv}')
+print(f'KNN Score: {Knn_cv}')
+
+# the results is very near to results before we do cross validation this indicates that the model is stable and generalize well to unseen data
