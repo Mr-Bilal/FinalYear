@@ -1,0 +1,197 @@
+#LinearRegression
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
+
+LR=LinearRegression()
+
+LR.fit(X_train,y_train)
+
+y_pred=LR.predict(X_test)
+
+m_score_train = LR.score(X_train,y_train)
+
+m_score_test = LR.score(X_test,y_test)
+
+r2 = r2_score(y_test, y_pred)
+
+train_mse_scaled = mean_squared_error(y_train, LR.predict(X_train))
+
+test_mse_scaled = mean_squared_error(y_test, y_pred)
+
+rmse=np.sqrt(test_mse_scaled)
+
+print(f"model_score_train : {m_score_train}\nmodel score_test : {m_score_test}\nR-squared: {r2}\nmean_squared_error_train: {train_mse_scaled}\nmean_square_error_test: {test_mse_scaled}\nrmse : {rmse}")
+
+/////////////////////////////////////////////////////////////////////////////////
+
+#Knn
+
+from sklearn.neighbors import KNeighborsRegressor
+
+Knn=KNeighborsRegressor(n_neighbors=3)
+
+Knn.fit(X_train,y_train)
+
+y_pred_knn=Knn.predict(X_test)
+
+m_score_test_knn=Knn.score(X_test,y_test)
+
+r2_knn = r2_score(y_test, y_pred_knn)
+
+train_mse_scaled_knn = mean_squared_error(y_train, Knn.predict(X_train))
+
+test_mse_scaled_knn = mean_squared_error(y_test, y_pred_knn)
+
+rmse_knn=np.sqrt(test_mse_scaled_knn)
+
+print(f"model score_test : {m_score_test_knn}\nR-squared: {r2_knn}\nmean_squared_error_train: {train_mse_scaled_knn}\nmean_square_error_test: {test_mse_scaled_knn}\nrmse : {rmse_knn}")
+
+///////////////////////////////////////////////////////////////////////////////////
+
+#Cross Validation
+
+from sklearn.model_selection import cross_val_score
+
+# Linear Regression Model
+LR_cv = cross_val_score(LR,X,y,cv=5,scoring="r2")
+LR_cv = LR_cv.mean()
+
+
+# KNN Model
+Knn_cv = cross_val_score(Knn,X,y,cv=5,scoring="r2")
+Knn_cv = Knn_cv.mean()
+
+#printing the results of cv_models
+print(f'Linear Regression Score: {LR_cv}')
+print(f'KNN Score: {Knn_cv}')
+
+////////////////////////////////////////////////////////////////////////////////
+
+#GradientBoostingRegressor
+
+from sklearn.ensemble import GradientBoostingRegressor
+from sklearn.metrics import mean_squared_error, r2_score
+
+import numpy as np
+
+gradient_boost_model = GradientBoostingRegressor(learning_rate=1.0, n_estimators=20, max_depth=5, min_samples_leaf=5)
+
+# Fit the model
+gradient_boost_model.fit(X_train, y_train)
+
+# Predictions
+y_train_pred = gradient_boost_model.predict(X_train)
+y_test_pred = gradient_boost_model.predict(X_test)
+
+# Model scores
+model_score_train = gradient_boost_model.score(X_train, y_train)
+model_score_test = gradient_boost_model.score(X_test, y_test)
+
+# R-squared scores
+r2_score_train = r2_score(y_train, y_train_pred)
+r2_score_test = r2_score(y_test, y_test_pred)
+
+# Mean squared errors
+mse_train = mean_squared_error(y_train, y_train_pred)
+mse_test = mean_squared_error(y_test, y_test_pred)
+
+# Root mean squared errors
+rmse_train = np.sqrt(mse_train)
+rmse_test = np.sqrt(mse_test)
+
+# Print the metrics
+print("Model Score Train:", model_score_train)
+print("Model Score Test:", model_score_test)
+print("R-squared Train:", r2_score_train)
+print("R-squared Test:", r2_score_test)
+print("Mean Squared Error Train:", mse_train)
+print("Mean Squared Error Test:", mse_test)
+print("Root Mean Squared Error Train:", rmse_train)
+print("Root Mean Squared Error Test:", rmse_test)
+
+
+///////////////////////////////////////////////////////////////////////
+
+#AdaBoostRegressor
+
+from sklearn.ensemble import AdaBoostRegressor
+from sklearn.metrics import mean_squared_error, r2_score
+import numpy as np
+
+adaboost_model = AdaBoostRegressor(n_estimators=20, learning_rate=0.1, loss='square')
+
+# Fit the model
+adaboost_model.fit(X_train, y_train)
+
+# Predictions
+y_train_pred = adaboost_model.predict(X_train)
+y_test_pred = adaboost_model.predict(X_test)
+
+# Model scores
+model_score_train = adaboost_model.score(X_train, y_train)
+model_score_test = adaboost_model.score(X_test, y_test)
+
+# R-squared scores
+r2_score_train = r2_score(y_train, y_train_pred)
+r2_score_test = r2_score(y_test, y_test_pred)
+
+# Mean squared errors
+mse_train = mean_squared_error(y_train, y_train_pred)
+mse_test = mean_squared_error(y_test, y_test_pred)
+
+# Root mean squared errors
+rmse_train = np.sqrt(mse_train)
+rmse_test = np.sqrt(mse_test)
+
+# Print the metrics
+print("Model Score Train:", model_score_train)
+print("Model Score Test:", model_score_test)
+print("R-squared Train:", r2_score_train)
+print("R-squared Test:", r2_score_test)
+print("Mean Squared Error Train:", mse_train)
+print("Mean Squared Error Test:", mse_test)
+print("Root Mean Squared Error Train:", rmse_train)
+print("Root Mean Squared Error Test:", rmse_test)
+
+//////////////////////////////////////////////////////////////////////////////////
+
+#xgb_model
+
+import xgboost as xgb
+from sklearn.metrics import mean_squared_error, r2_score
+import numpy as np
+
+xgb_model = xgb.XGBRegressor(objective="reg:linear", random_state=42)
+
+# Fit the model
+xgb_model.fit(X_train, y_train)
+
+# Predictions
+y_train_pred = xgb_model.predict(X_train)
+y_test_pred = xgb_model.predict(X_test)
+
+# Model scores
+model_score_train = xgb_model.score(X_train, y_train)
+model_score_test = xgb_model.score(X_test, y_test)
+
+# R-squared scores
+r2_score_train = r2_score(y_train, y_train_pred)
+r2_score_test = r2_score(y_test, y_test_pred)
+
+# Mean squared errors
+mse_train = mean_squared_error(y_train, y_train_pred)
+mse_test = mean_squared_error(y_test, y_test_pred)
+
+# Root mean squared errors
+rmse_train = np.sqrt(mse_train)
+rmse_test = np.sqrt(mse_test)
+
+# Print the metrics
+print("Model Score Train:", model_score_train)
+print("Model Score Test:", model_score_test)
+print("R-squared Train:", r2_score_train)
+print("R-squared Test:", r2_score_test)
+print("Mean Squared Error Train:", mse_train)
+print("Mean Squared Error Test:", mse_test)
+print("Root Mean Squared Error Train:", rmse_train)
+print("Root Mean Squared Error Test:", rmse_test)
